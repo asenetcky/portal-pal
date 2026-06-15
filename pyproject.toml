@@ -1,0 +1,107 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "open-data-portal-pal"
+version = "0.1.0"
+description = "Deployable LLM + RAG System for Interacting with Open Data Portals."
+readme = "README.md"
+authors = [
+  {name = "Alexander J. Senetcky", email = "me@asenetcky.dev"}
+]
+maintainers = [
+  {name = "Alexander J. Senetcky", email = "me@asenetcky.dev"}
+]
+classifiers = [
+    "Typing :: Typed",
+    # TODO: Add additional classifiers as needed
+]
+license = {text = "MIT"}
+dependencies = [
+  "typer",
+  "rich",
+  "langchain-anthropic>=1.4.6",
+  "langgraph>=1.2.5",
+  "langsmith>=0.8.15",
+  "fastapi>=0.137.1",
+  "uvicorn>=0.49.0",
+  "slowapi>=0.1.10",
+  "pydantic-settings>=2.14.1",
+  "python-dotenv>=1.2.2",
+]
+requires-python = ">= 3.12"
+
+[dependency-groups]
+dev = [
+    { include-group = "lint" },
+    { include-group = "test" },
+    { include-group = "typecheck" },
+    "httpx2>=2.4.0",
+    "pytest>=9.1.0",
+]
+lint = [
+    "ruff",
+]
+test = [
+    "coverage",
+    "pytest",
+]
+typecheck = [
+    "ty",
+]
+docs = [
+    "zensical",
+    "mkdocstrings-python",
+]
+
+[project.urls]
+bugs = "https://github.com/asenetcky/open_data_portal_pal/issues"
+changelog = "https://github.com/asenetcky/open_data_portal_pal/releases"
+documentation = "https://asenetcky.github.io/open_data_portal_pal/"
+homepage = "https://github.com/asenetcky/open_data_portal_pal"
+
+[project.scripts]
+open_data_portal_pal = "open_data_portal_pal.cli:app"
+
+[tool.ty]
+# All rules are enabled as "error" by default; no need to specify unless overriding.
+# Example override: relax a rule for the entire project (uncomment if needed).
+# rules.TY015 = "warn"  # For invalid-argument-type, warn instead of error.
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+source = ["src/", "tests/"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 50
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "if typing.TYPE_CHECKING:",
+    "@overload",
+    "@typing.overload",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+    "raise NotImplementedError",
+    "\\.\\.\\.",
+]
+
+[tool.uv]
+package = true
+default-groups = ["dev"]
