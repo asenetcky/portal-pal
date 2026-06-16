@@ -44,3 +44,18 @@ class InputSanitizer:
         text = re.sub(r"[=]{3,}", "", text)
         text = text.replace("{{", "{ {").replace("}}", "} }")
         return text.strip()
+
+
+class PIIDetector:
+    """
+    Detect and mask personally identifiable information.
+    Works on BOTH input and output.
+    """
+
+    PATTERNS = {
+        "email": r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
+        "phone": r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b",
+        "ssn": r"\b\d{3}-\d{2}-\d{4}\b",
+        "credit_card": r"\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b",
+        "ip_address": r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b",
+    }
