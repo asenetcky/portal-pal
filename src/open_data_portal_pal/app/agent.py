@@ -3,7 +3,7 @@ from typing import Annotated, TypedDict
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from langchain_openai import ChatOpenAI
 from langgraph.graph import END, START, StateGraph
-from langgraph.graph.message import add_messages, message_chunk_to_message
+from langgraph.graph.message import add_messages
 from langsmith import traceable
 
 from open_data_portal_pal.app.config import get_settings
@@ -38,12 +38,14 @@ class ProductionAgent:
             temperature=0,
             timeout=30,
             max_retries=0,  # handle retries ourselves
+            api_key = agent_settings.openai_api_key
         )
         self.fallback_llm = ChatOpenAI(
             model=agent_settings.fallback_model,
             temperature=0,
             timeout=30,
             max_retries=0,  # handle retries ourselves
+            api_key= agent_settings.openai_api_key
         )
         self.max_retries = agent_settings.max_retries
         self.graph = self._build_graph()
