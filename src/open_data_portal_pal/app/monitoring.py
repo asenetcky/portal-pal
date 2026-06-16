@@ -3,6 +3,7 @@ import json
 import logging
 import time
 from functools import wraps
+from resource import error
 from typing import Any, Callable
 
 
@@ -76,3 +77,32 @@ class MetricCollector:
 
         else:
             self._cache_misses += 1
+
+    def get_summary(self) -> dict:
+        """Compute summary metrics."""
+
+        avg_latency = self._latency_sum / self._latency_count if self._latency_count > 0 else 0.0
+        error_rate = self._errors_total / self._requests_total if self._requests_total > 0 else 0.0
+        cache_total = self._cache_hits + self._cache_misses
+        cache_hit_rate = self._cache_hits / cache_total if cache_total > 0 else 0.0
+
+        return {
+            "total_requests": self._requests_total,
+            "total_errors": self._errors_total,
+            "error_rate": f"{error_rate:.2%}",
+            "avg_latency_ms": round(avg_latency, 2),
+            "cache_hit_rate": f"{cache_hit_rate:.2%}",
+            "total_input_tokens": self._tokens_input,
+            "total_output_tokens": self._tokens_output,
+        }
+
+
+class RequestTimer:
+    """Conext manager for timing requests."""
+
+    def __enter__(self):
+        self.start = time.time()
+        return self
+
+    def __exit__(self, *args):
+        self.elapsed_ms = (time.time() - self.start) * 1000
