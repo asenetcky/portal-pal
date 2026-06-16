@@ -4,7 +4,6 @@ Pydantic modeks for input validation and respons structure.
 """
 
 import datetime
-from functools import total_ordering
 
 from pydantic import BaseModel, Field
 
