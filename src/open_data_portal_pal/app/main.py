@@ -220,3 +220,16 @@ async def health():
         environment=settings.app_env,
         checks=checks,
     )
+
+
+@app.get("/metrics", response_model=MetricResponse)
+async def get_metrics():
+    """Metrics for monitoring dashbaords."""
+    summary = metrics.get_summary()
+    return MetricResponse(**summary)
+
+
+@app.get("/cache/stats")
+async def cache_stats():
+    """Cache performance stats."""
+    return cache.stats
