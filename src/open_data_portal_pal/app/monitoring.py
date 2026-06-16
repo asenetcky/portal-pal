@@ -3,7 +3,6 @@ import json
 import logging
 import time
 from functools import wraps
-from resource import error
 from typing import Any, Callable
 
 
@@ -69,6 +68,7 @@ class MetricCollector:
         self._latency_count += 1
         self._tokens_input += input_tokens
         self._tokens_output += output_tokens
+
         if error:
             self._errors_total += 1
 
