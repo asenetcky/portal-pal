@@ -62,3 +62,31 @@ async def lifespan(app: FastAPI):
     # shutdown
     logger.info("Shutting down...", extra={"extra_data": metrics.get_summary()})
 
+
+# rate limiter setup
+
+limiter = Limiter(key_func=get_remote_address)
+
+# fastapi app
+app = FastAPI(
+    title="Production Open Data Portal Pal",
+    description="A production-ready chat api with security, caching, and observability.",
+    version="0.1.0",
+    lifespan=lifespan,
+)
+app.state.limiter = limiter
+
+
+# exception handlers
+
+# TODO: work through this
+# @app.exception_handlers(RateLimitExceeded)
+# async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
+#     return JSONResponse(
+#         status_code=429,
+#         content={
+#             "error": "Rate Limit exceeded",
+#             "detail": "too many requests. Please slow down."
+#         }
+#     )
+
