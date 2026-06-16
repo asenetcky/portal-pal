@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     rate_limit: str = "20/minute"
     cache_ttl_seconds: int = 300
     max_cache_entries: int = 3
+    max_retries: int = 3
 
     model_config = {"env_file": ".env", "extra": "ignore"}
 
