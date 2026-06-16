@@ -90,3 +90,113 @@ app.state.limiter = limiter
 #         }
 #     )
 
+
+# chat endpoints
+
+
+@app.post("/chat", response_model=ChatResponse)
+@limiter.limit(get_settings().rate_limit)
+@traceable(name="chat_endpoint")
+async def chat(request: Request, body: ChatRequest):
+    """
+    Main chat endpoint.
+
+    Flow:
+    1. Security check (injection + PII Masking)
+    2. cache lookup
+    3. LangGraph agent invoke (if cache miss)
+    4. Output validation
+    5. cache store
+    6. return response
+    """
+    with RequestTimer() as timer:
+        security_notes = []
+
+        # step 1: security check
+        is_allowed, cleaned_message, notes = security.check_input(body.message)
+        security_notes.extend(notes)
+
+        if not is_allowed:
+            logger.warning(
+                "Request blocked by security",
+                extra={
+                    "extra_data": {
+                        "reason": notes,
+                        "thread_id": body.thread_id,
+                    }
+                },
+            )
+            metrics.record_request(latency_ms=0, error=True)
+            raise HTTPException(status_code=400, detail="Your message was blocked by our security filters.")
+
+        # step 2: cache lookup
+        cached_response = cache.get(cleaned_message)
+        if cached_response is not None:
+            metrics.record_request(latency_ms=0, cache_hit=True)
+            logger.info("Cache hit", extra={"extra_data": {"thread_id": body.thread_id}})
+            return ChatResponse(
+                response=cached_response,
+                thread_id=body.thread_id,
+                model_used="cache",
+                cached=True,
+                processing_time_ms=0,
+            )
+
+        # step 3: invoake langgraph agent
+        try:
+            result = agent.invoke(cleaned_message)
+        except Exception as e:
+            logger.error(
+                f"Agent invocation failed: {e}",
+                extra={
+                    "extra_data": {
+                        "thread_id": body.thread_id,
+                        "error": str(e),
+                    }
+                },
+            )
+            metrics.record_request(latency_ms=0, error=True)
+            raise HTTPException(status_code=500, detail="An Error occurred while processing your request.")
+
+        response_text = result["response"]
+        model_used = result["model_used"]
+
+        # step 4: output validation
+        validated_response, output_warnings = security.check_output(response_text)
+        security_notes.extend(output_warnings)
+
+        # step 5: cache store
+        cache.set(cleaned_message, validated_response)
+
+        # step 6. log and record metrics
+        input_tokens = int(len(cleaned_message.split()) * 1.3)  # TODO: impl tiktoken
+        output_tokens = int(len(validated_response.split()) * 1.3)  # TODO: impl tiktoken
+
+        metrics.record_request(
+            latency_ms=timer.elapsed_ms,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            cache_hit=False,
+        )
+
+        if security_notes:
+            logger.info("Security notes", extra={"extra_data": {"notes": security_notes, "thread_id": body.thread_id}})
+
+        logger.info(
+            "Request completed",
+            extra={
+                "extra_data": {
+                    "thread_id": body.thread_id,
+                    "model_used": model_used,
+                    "latency_ms": round(timer.elapsed_ms, 2),
+                }
+            },
+        )
+
+        return ChatResponse(
+            response=validated_response,
+            thread_id=body.thread_id,
+            model_used=model_used,
+            cached=False,
+            processing_time_ms=round(timer.elapsed_ms, 2),
+        )
