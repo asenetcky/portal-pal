@@ -4,6 +4,7 @@ Protecting LLM application in production
 """
 
 import re
+from logging import warning
 from typing import Optional
 
 from langsmith import traceable
@@ -26,7 +27,7 @@ class InputSanitizer:
     def __init__(self):
         self.patterns = [re.compile(p, re.IGNORECASE) for p in self.INJECTION_PATTERNS]
 
-    def check(self, text: str) -> tuple[bool, Optional[str]]:
+    def check(self, text: str) -> tuple[bool, str | None]:
         """
         Check if input is safe.
         Returns: (is_safe, rejection_reason)
@@ -83,3 +84,47 @@ class PIIDetector:
         for pii_type, pattern in self.PATTERNS.items():
             masked = pattern.sub(self.MASK_MAP[pii_type], masked)
         return masked
+
+
+class OutputValidator:
+    """
+    Validate LLM output before returning to the client.
+    Catches PII leakage and harmful content in responses.
+    """
+
+    HARMFUL_PATTERNS = [
+        re.compile(r"here('s| is) (how|the way) to (hack|steal|attack)", re.I),
+        re.compile(r"password\s+is\s+", re.I),
+        re.compile(r"api[_\s]?key\s*[:=]", re.I),
+    ]
+
+    def __init__(self):
+        self.pii_detector = PIIDetector()
+
+    def validate(self, output: str) -> tuple[str, list[str]]:
+        """
+        Validate and clean output.
+        Returns: (cleaned_outputm list_of_warnings)
+        """
+
+        warnings = []
+
+        # check for PII leakage in output
+        pii_found = self.pii_detector.detect(output)
+        if pii_found:
+            output = self.pii_detector.mask(output)
+            warnings.append(f"PII masked in output: {list(pii_found.keys())}")
+
+        # check for harmful content
+        for pattern in self.HARMFUL_PATTERNS:
+            if pattern.search(output):
+                output = "[Response blocked: potentially harmful content]"
+                warnings.append("Harmful content blocked")
+                break
+        return output, warnings
+
+
+class SecurityPipeline:
+    """
+    Full security pipeline
+    """
