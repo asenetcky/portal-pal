@@ -123,18 +123,18 @@ class ProductionAgent:
 
         return graph.compile()
 
-        @traceable(name="production_agent_invoke")
-        def invoke(self, message: str) -> dict:
-            """
-            Invoke the agent with a user message.
-            Returns: {"response": str, "model_used": str, "error": str | None}
-            """
-            result = self.graph.invoke(
-                {"messages": [HumanMessage(content=message)], "error": None, "retry_count": 0, "model_used": ""}
-            )
+    @traceable(name="production_agent_invoke")
+    def invoke(self, message: str) -> dict:
+        """
+        Invoke the agent with a user message.
+        Returns: {"response": str, "model_used": str, "error": str | None}
+        """
+        result = self.graph.invoke(
+            {"messages": [HumanMessage(content=message)], "error": None, "retry_count": 0, "model_used": ""}
+        )
 
-            return {
-                "response": result["messages"][-1].content,
-                "model_used": result.get("model_used", "unknown"),
-                "error": result.get("error"),
-            }
+        return {
+            "response": result["messages"][-1].content,
+            "model_used": result.get("model_used", "unknown"),
+            "error": result.get("error"),
+        }
