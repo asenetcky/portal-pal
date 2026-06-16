@@ -1,12 +1,11 @@
 import os
 import time
 from contextlib import asynccontextmanager
-from glob import glob
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
-from httpx import get
+from httpx2 import get
 from langsmith import traceable
 from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
@@ -22,11 +21,15 @@ from open_data_portal_pal.app.security import SecurityPipeline
 
 load_dotenv()
 
-...
+
+# cache: ResponseCache = None
+# metrics: MetricCollector = None
+# agent: ProductionAgent = None
+logger = get_logger()
 
 
 @asynccontextmanager
-async def lifespanb(app: FastAPI):
+async def lifespan(app: FastAPI):
     """
     Initialize all components on startup, clean up on shutdown.
     This is the modern FastAPI pattern (replaces @app.on_event)
@@ -34,3 +37,28 @@ async def lifespanb(app: FastAPI):
     global security, cache, metrics, agent
 
     settings = get_settings()
+
+    logger.info(
+        "Starting production portal pal API...",
+        extra={
+            "extra_data": {
+                "environment": settings.app_env,
+                "primary_model": settings.primary_model,
+                "tracing_enabled": settings.langsmith_tracing,
+            }
+        },
+    )
+
+    # initialize components
+    security = SecurityPipeline()
+    cache = ResponseCache(ttl_seconds=settings.cache_ttl_seconds)
+    metrics = MetricCollector()
+    agent = ProductionAgent()
+
+    logger.info("All components initialized. Ready to server requests.")
+
+    yield  # App is running
+
+    # shutdown
+    logger.info("Shutting down...", extra={"extra_data": metrics.get_summary()})
+
