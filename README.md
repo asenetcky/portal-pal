@@ -9,6 +9,13 @@ Deployable LLM + RAG System for Interacting with Open Data Portals.
 * Created by: **[Alexander J. Senetcky](https://asenetcky.dev)** | GitHub https://github.com/asenetcky | PyPI https://pypi.org/user/asenetcky/
 * Free software: MIT License
 
+
+## usage
+```
+uv run uvicorn open_data_portal_pal.app.main:app --reload --port 8000
+```
+
+
 ## Features
 
 * TODO
