@@ -7,7 +7,6 @@ from langgraph.graph.message import add_messages
 from langsmith import traceable
 
 from open_data_portal_pal.app.config import get_settings
-from open_data_portal_pal.testy import settings
 
 
 class AgentState(TypedDict):
@@ -31,23 +30,23 @@ class ProductionAgent:
     """
 
     def __init__(self):
-        agent_settings = get_settings()
+        settings = get_settings()
 
         self.primary_llm = ChatOpenAI(
-            model=agent_settings.primary_model,
+            model=settings.primary_model,
             temperature=0,
             timeout=30,
             max_retries=0,  # handle retries ourselves
-            api_key = agent_settings.openai_api_key
+            api_key=settings.openai_api_key,
         )
         self.fallback_llm = ChatOpenAI(
-            model=agent_settings.fallback_model,
+            model=settings.fallback_model,
             temperature=0,
             timeout=30,
             max_retries=0,  # handle retries ourselves
-            api_key= agent_settings.openai_api_key
+            api_key=settings.openai_api_key,
         )
-        self.max_retries = agent_settings.max_retries
+        self.max_retries = settings.max_retries
         self.graph = self._build_graph()
 
     def _build_graph(self):
