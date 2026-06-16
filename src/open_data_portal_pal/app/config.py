@@ -10,14 +10,15 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # LLM Configuration
-    openai_api_key: str = ""
+    openai_api_key: str
     primary_model: str = "gpt-5.4-nano-2026-03-17"
     fallback_model: str = "gpt-5-nano-2025-08-07"
 
     # LangSmith
-    langchain_tracing: bool = True
-    langchain_api_key: str = ""
-    langchain_project: str = ""
+    langsmith_tracing: bool = True
+    langsmith_api_key: str = ""
+    langsmith_project: str = ""
+    langsmith_endpoint: str = ""
 
     # Application
     app_env: str = "development"
