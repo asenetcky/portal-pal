@@ -5,7 +5,6 @@ Protecting LLM application in production
 
 import re
 from logging import warning
-from typing import Optional
 
 from langsmith import traceable
 
@@ -126,5 +125,44 @@ class OutputValidator:
 
 class SecurityPipeline:
     """
-    Full security pipeline
+    Full security pipeline that processes input and output.
+    This is the single class you wire into your API.
     """
+
+    def __init__(self):
+        self.sanitizer = InputSanitizer()
+        self.pii_detector = PIIDetector()
+        self.output_validator = OutputValidator()
+
+    @traceable(name="security_check_input")
+    def check_input(self, text: str) -> tuple[bool, str, list[str]]:
+        """
+        Process input through security checks.
+        Returns: (is_allowed, cleaned_text, security_notes)
+        """
+
+        notes = []
+
+        # step 1. check for injection
+        is_safe, reason = self.sanitizer.check(text)
+        if not is_safe:
+            return False, "", [reason]
+
+        # step 2. clean input
+        cleaned = self.sanitizer.clean(text)
+
+        # step 3. massk pii before it hits llm
+        pii_found = self.pii_detector.detect(cleaned)
+        if pii_found:
+            cleaned = self.pii_detector.mask(cleaned)
+            notes.append(f"Input PII masked: {list(pii_found.keys())}")
+
+        return True, cleaned, notes
+
+    def check_output(self, text: str) -> tuple[str, list[str]]:
+        """
+        Validate output before returning to user.
+        Returns: (cleaned_output, warnings)
+        """
+
+        return self.output_validator.validate(text)
