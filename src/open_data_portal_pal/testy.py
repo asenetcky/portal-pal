@@ -97,27 +97,32 @@
 
 
 
-# from open_data_portal_pal.app.monitoring import get_logger, MetricCollector, RequestTimer
-# import time
+from open_data_portal_pal.app.monitoring import get_logger, MetricCollector, RequestTimer
+import time
 
-# logger = get_logger()
-# metrics = MetricCollector()
+logger = get_logger()
+metrics = MetricCollector()
 
-# print('--- structured logging ---')
-# print()
+print('--- structured logging ---')
+print()
 
-# logger.info('Application starting')
-# logger.info('Processing rquest', extra={'extra_data': {'user_id': 'user-123', 'thread_id': 'thread-123'}})
-# logger.warning('Rate limit approaching', extra={'extra_data': {'current_rate':18, 'limit': 25}})
+logger.info('Application starting')
+logger.info('Processing rquest', extra={'extra_data': {'user_id': 'user-123', 'thread_id': 'thread-123'}})
+logger.warning('Rate limit approaching', extra={'extra_data': {'current_rate':18, 'limit': 25}})
 
-# print()
-# print('--- metrics collection ---')
-# print()
+print()
+print('--- metrics collection ---')
+print()
 
-# with RequestTimer() as timer:
-#     time.sleep(0.1) # simulate work
-# metrics.record_request(latency_ms=timer.elapsed_ms, input_tokens=50, output_tokens=100)
-# print(f'request 1: {timer.elapsed_ms:.1f}ms')
+with RequestTimer() as timer:
+    time.sleep(0.1) # simulate work
+metrics.record_request(latency_ms=timer.elapsed_ms, input_tokens=50, output_tokens=100)
+print(f'request 1: {timer.elapsed_ms:.1f}ms')
+
+metrics.record_request(latency_ms=5.0, error=True)
+
+import json
+print(json.dumps(metrics.summary, indent=2))
 
 
 

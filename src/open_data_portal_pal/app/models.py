@@ -3,7 +3,7 @@ API Request and Response Models
 Pydantic modeks for input validation and respons structure.
 """
 
-import datetime
+import datetime as dt
 
 from pydantic import BaseModel, Field
 
@@ -27,7 +27,7 @@ class ChatResponse(BaseModel):
     model_used: str
     cached: bool = False
     processing_time_ms: float
-    timestamp: str = Field(default_factory=lambda: datetime.datetime.now(tz=datetime.UTC).isoformat())
+    timestamp: str = Field(default_factory=lambda: dt.datetime.now(tz=dt.UTC).isoformat())
 
 
 class HealthResponse(BaseModel):
@@ -39,7 +39,7 @@ class HealthResponse(BaseModel):
     checks: dict = {}
 
 
-class MetricResponse(BaseModel):
+class MetricsResponse(BaseModel):
     """Metrics endpoint response."""
 
     total_requests: int

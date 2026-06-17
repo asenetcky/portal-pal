@@ -3,7 +3,6 @@ import json
 import logging
 import time
 from functools import wraps
-from typing import Any, Callable
 
 
 class JSONFormatter(logging.Formatter):
@@ -37,7 +36,7 @@ def get_logger(name: str = "open-data-portal-pal") -> logging.Logger:
     return logger
 
 
-class MetricCollector:
+class MetricsCollector:
     """
     Collects and aggregates applications metrics.
 
@@ -78,7 +77,8 @@ class MetricCollector:
         else:
             self._cache_misses += 1
 
-    def get_summary(self) -> dict:
+    @property
+    def summary(self) -> dict:
         """Compute summary metrics."""
 
         avg_latency = self._latency_sum / self._latency_count if self._latency_count > 0 else 0.0

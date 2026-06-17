@@ -8,7 +8,7 @@ import time
 
 class ResponseCache:
     """
-    In-memoryu response cache with TTL (time-to-live).
+    In-memory response cache with TTL (time-to-live).
 
     In production, replaces this with Redis:
     -Presistence across restarts

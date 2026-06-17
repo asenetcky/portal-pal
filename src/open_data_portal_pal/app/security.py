@@ -4,12 +4,16 @@ Protecting LLM application in production
 """
 
 import re
-from logging import warning
 
 from langsmith import traceable
 
 
 class InputSanitizer:
+    """
+    Sanitize user input before it reaches the LLM.
+    Detects prompt injections patterns and cleans dangerous content.
+    """
+
     INJECTION_PATTERNS = [
         r"ignore\s+(all\s+)?previous\s+instructions",
         r"forget\s+(all\s+)?previous",
@@ -135,7 +139,7 @@ class SecurityPipeline:
         self.output_validator = OutputValidator()
 
     @traceable(name="security_check_input")
-    def check_input(self, text: str) -> tuple[bool, str, list[str]]:
+    def check_input(self, text: str) -> tuple[bool, str, list[str | None]]:
         """
         Process input through security checks.
         Returns: (is_allowed, cleaned_text, security_notes)

@@ -11,20 +11,21 @@ from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 
-from open_data_portal_pal.app import security
 from open_data_portal_pal.app.agent import ProductionAgent
 from open_data_portal_pal.app.cache import ResponseCache
 from open_data_portal_pal.app.config import get_settings
-from open_data_portal_pal.app.models import ChatRequest, ChatResponse, ErrorResponse, HealthResponse, MetricResponse
-from open_data_portal_pal.app.monitoring import MetricCollector, RequestTimer, get_logger
+from open_data_portal_pal.app.models import ChatRequest, ChatResponse, ErrorResponse, HealthResponse, MetricsResponse
+from open_data_portal_pal.app.monitoring import MetricsCollector, RequestTimer, get_logger
 from open_data_portal_pal.app.security import SecurityPipeline
 
 load_dotenv()
 
 
-# cache: ResponseCache = None
-# metrics: MetricCollector = None
-# agent: ProductionAgent = None
+# Global instances (initialized in lifespan)
+security: SecurityPipeline = None
+cache: ResponseCache = None
+metrics: MetricsCollector = None
+agent: ProductionAgent = None
 logger = get_logger()
 
 
@@ -52,7 +53,7 @@ async def lifespan(app: FastAPI):
     # initialize components
     security = SecurityPipeline()
     cache = ResponseCache(ttl_seconds=settings.cache_ttl_seconds)
-    metrics = MetricCollector()
+    metrics = MetricsCollector()
     agent = ProductionAgent()
 
     logger.info("All components initialized. Ready to server requests.")
@@ -60,7 +61,7 @@ async def lifespan(app: FastAPI):
     yield  # App is running
 
     # shutdown
-    logger.info("Shutting down...", extra={"extra_data": metrics.get_summary()})
+    logger.info("Shutting down...", extra={"extra_data": metrics.summary})
 
 
 # rate limiter setup
@@ -79,16 +80,15 @@ app.state.limiter = limiter
 
 # exception handlers
 
-# TODO: work through this
-# @app.exception_handlers(RateLimitExceeded)
-# async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
-#     return JSONResponse(
-#         status_code=429,
-#         content={
-#             "error": "Rate Limit exceeded",
-#             "detail": "too many requests. Please slow down."
-#         }
-#     )
+
+@app.exception_handler(RateLimitExceeded)
+async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
+    """Handle rate limit exceeded errors."""
+    logger.warning("Rate limit exceeded", extra={"extra_data": {"client_ip": get_remote_address(request)}})
+
+    return JSONResponse(
+        status_code=429, content={"error": "Rate limit exceeded", "detail": "too many requests. Please slow down."}
+    )
 
 
 # chat endpoints
@@ -222,11 +222,11 @@ async def health():
     )
 
 
-@app.get("/metrics", response_model=MetricResponse)
+@app.get("/metrics", response_model=MetricsResponse)
 async def get_metrics():
     """Metrics for monitoring dashbaords."""
-    summary = metrics.get_summary()
-    return MetricResponse(**summary)
+    summary = metrics.summary
+    return MetricsResponse(**summary)
 
 
 @app.get("/cache/stats")
