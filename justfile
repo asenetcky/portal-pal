@@ -4,7 +4,6 @@
 list:
     @just --list
 
-alias b := build
 alias c := clean
 alias d := docs-serve
 alias t := test
@@ -64,29 +63,10 @@ docs-serve:
 docs-build:
     uv run --group docs zensical build --clean
 
-# Build the project, useful for checking that packaging is correct
-build:
-    rm -rf build
-    rm -rf dist
-    uv build
-
-# Tag, push, and create a GitHub release
-release:
-    uv run scripts/release.py
-
-# Remove all build, test, coverage and Python artifacts
+# Remove all test, coverage and Python artifacts
 clean:
-	clean-build
 	clean-pyc
 	clean-test
-
-# Remove build artifacts
-clean-build:
-	rm -fr build/
-	rm -fr dist/
-	rm -fr .eggs/
-	find . -name '*.egg-info' -exec rm -fr {} +
-	find . -name '*.egg' -exec rm -f {} +
 
 # Remove Python file artifacts
 clean-pyc:
@@ -101,8 +81,3 @@ clean-test:
 	rm -f .coverage.*
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
-
-# Publish to PyPI (manual alternative to GitHub Actions)
-publish:
-    uv build
-    uv publish
