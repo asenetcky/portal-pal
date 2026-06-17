@@ -63,6 +63,10 @@ docs-serve:
 docs-build:
     uv run --group docs zensical build --clean
 
+# Tag, push, and create a GitHub release
+release:
+    uv run scripts/release.py
+
 # Remove all test, coverage and Python artifacts
 clean:
 	clean-pyc
