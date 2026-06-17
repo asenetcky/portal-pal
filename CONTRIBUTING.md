@@ -8,7 +8,7 @@ You can contribute in many ways:
 
 ### Report Bugs
 
-Report bugs at <https://github.com/asenetcky/open_data_portal_pal/issues>.
+Report bugs at <https://github.com/asenetcky/portal-pal/issues>.
 
 If you are reporting a bug, please include:
 
@@ -38,7 +38,7 @@ This starts a local server at <http://localhost:8000> with live reload. Edit fil
 
 ### Submit Feedback
 
-The best way to send feedback is to file an issue at <https://github.com/asenetcky/open_data_portal_pal/issues>.
+The best way to send feedback is to file an issue at <https://github.com/asenetcky/portal-pal/issues>.
 
 If you are proposing a feature:
 
@@ -48,19 +48,19 @@ If you are proposing a feature:
 
 ## Get Started
 
-Ready to contribute? Here's how to set up `open_data_portal_pal` for local development.
+Ready to contribute? Here's how to set up `portal-pal` for local development.
 
-1. Fork the `open_data_portal_pal` repo on GitHub.
+1. Fork the `portal-pal` repo on GitHub.
 2. Clone your fork locally:
 
    ```sh
-   git clone git@github.com:your_name_here/open_data_portal_pal.git
+   git clone git@github.com:your_name_here/portal-pal.git
    ```
 
 3. Install your local copy with uv:
 
    ```sh
-   cd open_data_portal_pal/
+   cd portal-pal/
    uv sync
    ```
 
