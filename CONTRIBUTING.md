@@ -8,7 +8,7 @@ You can contribute in many ways:
 
 ### Report Bugs
 
-Report bugs at https://github.com/asenetcky/open_data_portal_pal/issues.
+Report bugs at <https://github.com/asenetcky/open_data_portal_pal/issues>.
 
 If you are reporting a bug, please include:
 
@@ -34,11 +34,11 @@ To preview the docs locally:
 just docs-serve
 ```
 
-This starts a local server at http://localhost:8000 with live reload. Edit files in `docs/` or add docstrings to your code (the API reference page is auto-generated).
+This starts a local server at <http://localhost:8000> with live reload. Edit files in `docs/` or add docstrings to your code (the API reference page is auto-generated).
 
 ### Submit Feedback
 
-The best way to send feedback is to file an issue at https://github.com/asenetcky/open_data_portal_pal/issues.
+The best way to send feedback is to file an issue at <https://github.com/asenetcky/open_data_portal_pal/issues>.
 
 If you are proposing a feature:
 
@@ -46,7 +46,7 @@ If you are proposing a feature:
 - Keep the scope as narrow as possible, to make it easier to implement.
 - Remember that this is a volunteer-driven project, and that contributions are welcome :)
 
-## Get Started!
+## Get Started
 
 Ready to contribute? Here's how to set up `open_data_portal_pal` for local development.
 
@@ -101,6 +101,31 @@ Before you submit a pull request, check that it meets these guidelines:
 1. The pull request should include tests.
 2. If the pull request adds functionality, the docs should be updated. Put your new functionality into a function with a docstring, and add the feature to the list in README.md.
 3. The pull request should work for Python 3.12, 3.13, and 3.14. Tests run in GitHub Actions on every pull request to the main branch, make sure that the tests pass for all supported Python versions.
+
+## Releasing a New Version
+
+1. **Bump the version** and **write the changelog:**
+
+   ```bash
+   uv version <version>        # or: uv version --bump minor
+   ```
+
+   Then write `CHANGELOG/<version>.md`. See previous entries for the format.
+2. **Commit:**
+
+   ```bash
+   git add pyproject.toml uv.lock CHANGELOG/
+   git commit -m "Release <version>"
+   ```
+
+3. **Release:**
+
+   ```bash
+   just release
+   ```
+
+   This creates an annotated `v*` tag, pushes it to GitHub, and creates a
+   GitHub Release with the changelog contents as release notes.
 
 ## Tips
 
