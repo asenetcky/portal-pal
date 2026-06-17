@@ -1,11 +1,8 @@
 # Open Data Portal Pal
 
-![PyPI version](https://img.shields.io/pypi/v/open-data-portal-pal.svg)
-
 Deployable LLM + RAG System for Interacting with Open Data Portals.
 
-* GitHub: https://github.com/asenetcky/open-data-portal-pal/
-* PyPI package: https://pypi.org/project/open-data-portal-pal/
+* GitHub: https://github.com/asenetcky/portal-pal/
 * Created by: **[Alexander J. Senetcky](https://asenetcky.dev)** | GitHub https://github.com/asenetcky | PyPI https://pypi.org/user/asenetcky/
 * Free software: MIT License
 
@@ -24,7 +21,7 @@ uv run uvicorn open_data_portal_pal.app.main:app --reload --port 8000
 
 Documentation is built with [Zensical](https://zensical.org/) and deployed to GitHub Pages.
 
-* **Live site:** https://asenetcky.github.io/open_data_portal_pal/
+* **Live site:** https://asenetcky.github.io/portal-pal/
 * **Preview locally:** `just docs-serve` (serves at http://localhost:8000)
 * **Build:** `just docs-build`
 
@@ -38,14 +35,14 @@ To set up for local development:
 
 ```bash
 # Clone your fork
-git clone git@github.com:your_username/open-data-portal-pal.git
-cd open-data-portal-pal
+git clone git@github.com:your_username/portal-pal.git
+cd portal-pal
 
 # Install in editable mode with live updates
 uv tool install --editable .
 ```
 
-This installs the CLI globally but with live updates - any changes you make to the source code are immediately available when you run `open_data_portal_pal`.
+This installs the CLI globally but with live updates - any changes you make to the source code are immediately available when you run `portal-pal`.
 
 Run tests:
 

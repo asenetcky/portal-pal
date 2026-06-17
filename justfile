@@ -63,10 +63,9 @@ docs-serve:
 docs-build:
     uv run --group docs zensical build --clean
 
-# Remove all test, coverage and Python artifacts
-clean:
-	clean-pyc
-	clean-test
+# Tag, push, and create a GitHub release
+release:
+    uv run scripts/release.py
 
 # Remove Python file artifacts
 clean-pyc:
@@ -81,3 +80,7 @@ clean-test:
 	rm -f .coverage.*
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
+
+# Remove all test, coverage and Python artifacts
+clean: clean-pyc clean-test
+
