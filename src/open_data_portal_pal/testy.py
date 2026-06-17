@@ -1,9 +1,9 @@
-# from open_data_portal_pal.app.config import get_settings
+# from open_data_portal_pal.backend.config import get_settings
 
 # settings = get_settings()
 
 
-# from open_data_portal_pal.app.security import PIIDetector
+# from open_data_portal_pal.backend.security import PIIDetector
 
 # detector = PIIDetector()
 
@@ -24,7 +24,7 @@
 # print(f"\nMasked: {masked}")
 
 
-# from open_data_portal_pal.app.security import OutputValidator
+# from open_data_portal_pal.backend.security import OutputValidator
 
 # validator = OutputValidator()
 
@@ -44,7 +44,7 @@
 
 
 
-# from open_data_portal_pal.app.security import SecurityPipeline
+# from open_data_portal_pal.backend.security import SecurityPipeline
 
 # pipeline = SecurityPipeline()
 
@@ -75,7 +75,7 @@
 #     print()
 
 
-# from open_data_portal_pal.app.cache import ResponseCache
+# from open_data_portal_pal.backend.cache import ResponseCache
 
 # cache = ResponseCache(ttl_seconds=3)
 
@@ -97,7 +97,7 @@
 
 
 
-from open_data_portal_pal.app.monitoring import get_logger, MetricCollector, RequestTimer
+from open_data_portal_pal.backend.monitoring import get_logger, MetricCollector, RequestTimer
 import time
 
 logger = get_logger()
@@ -126,7 +126,7 @@ print(json.dumps(metrics.summary, indent=2))
 
 
 
-from open_data_portal_pal.app.agent import ProductionAgent
+from open_data_portal_pal.backend.agent import ProductionAgent
 # settings = get_settings()
 
 agent = ProductionAgent()
