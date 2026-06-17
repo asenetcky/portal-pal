@@ -6,7 +6,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.graph.message import add_messages
 from langsmith import traceable
 
-from open_data_portal_pal.app.config import get_settings
+from open_data_portal_pal.backend.config import get_settings
 
 
 class AgentState(TypedDict):
