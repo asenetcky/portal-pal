@@ -1,19 +1,5 @@
 # Installation
 
-## Stable release
-
-To install Open Data Portal Pal, run this command in your terminal:
-
-```sh
-uv add open-data-portal-pal
-```
-
-Or if you prefer to use `pip`:
-
-```sh
-pip install open-data-portal-pal
-```
-
 ## From source
 
 The source files for Open Data Portal Pal can be downloaded from the [Github repo](https://github.com/asenetcky/open_data_portal_pal).

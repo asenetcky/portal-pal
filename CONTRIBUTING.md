@@ -110,28 +110,6 @@ To run a subset of tests:
 uv run pytest tests/
 ```
 
-## Releasing a New Version
-
-1. **Bump the version** and **write the changelog:**
-   ```bash
-   uv version <version>        # or: uv version --bump minor
-   ```
-   Then write `CHANGELOG/<version>.md`. See previous entries for the format.
-2. **Commit:**
-   ```bash
-   git add pyproject.toml uv.lock CHANGELOG/
-   git commit -m "Release <version>"
-   ```
-3. **Release:**
-   ```bash
-   just release
-   ```
-   This creates an annotated `v*` tag, pushes it to GitHub, and creates a
-   GitHub Release with the changelog contents as release notes. The tag
-   push triggers `.github/workflows/publish.yml`, which builds the package,
-   generates SLSA provenance attestations, and publishes to PyPI via
-   trusted publishing.
-
 ## Code of Conduct
 
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
