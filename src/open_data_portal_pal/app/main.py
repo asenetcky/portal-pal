@@ -166,37 +166,37 @@ async def chat(request: Request, body: ChatRequest):
         cache.set(cleaned_message, validated_response)
 
         # step 6. log and record metrics
-        input_tokens = int(len(cleaned_message.split()) * 1.3)  # TODO: impl tiktoken
-        output_tokens = int(len(validated_response.split()) * 1.3)  # TODO: impl tiktoken
+    input_tokens = int(len(cleaned_message.split()) * 1.3)  # TODO: impl tiktoken
+    output_tokens = int(len(validated_response.split()) * 1.3)  # TODO: impl tiktoken
 
-        metrics.record_request(
-            latency_ms=timer.elapsed_ms,
-            input_tokens=input_tokens,
-            output_tokens=output_tokens,
-            cache_hit=False,
-        )
+    metrics.record_request(
+        latency_ms=timer.elapsed_ms,
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+        cache_hit=False,
+    )
 
-        if security_notes:
-            logger.info("Security notes", extra={"extra_data": {"notes": security_notes, "thread_id": body.thread_id}})
+    if security_notes:
+        logger.info("Security notes", extra={"extra_data": {"notes": security_notes, "thread_id": body.thread_id}})
 
-        logger.info(
-            "Request completed",
-            extra={
-                "extra_data": {
-                    "thread_id": body.thread_id,
-                    "model_used": model_used,
-                    "latency_ms": round(timer.elapsed_ms, 2),
-                }
-            },
-        )
+    logger.info(
+        "Request completed",
+        extra={
+            "extra_data": {
+                "thread_id": body.thread_id,
+                "model_used": model_used,
+                "latency_ms": round(timer.elapsed_ms, 2),
+            }
+        },
+    )
 
-        return ChatResponse(
-            response=validated_response,
-            thread_id=body.thread_id,
-            model_used=model_used,
-            cached=False,
-            processing_time_ms=round(timer.elapsed_ms, 2),
-        )
+    return ChatResponse(
+        response=validated_response,
+        thread_id=body.thread_id,
+        model_used=model_used,
+        cached=False,
+        processing_time_ms=round(timer.elapsed_ms, 2),
+    )
 
 
 @app.get("/health", response_model=HealthResponse)
