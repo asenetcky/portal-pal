@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "open-data-portal-pal"
+name = "portal-pal"
 version = "0.1.0"
 description = "Deployable LLM + RAG System for Interacting with Open Data Portals."
 readme = "README.md"
@@ -57,13 +57,13 @@ docs = [
 ]
 
 [project.urls]
-bugs = "https://github.com/asenetcky/open_data_portal_pal/issues"
-changelog = "https://github.com/asenetcky/open_data_portal_pal/releases"
-documentation = "https://asenetcky.github.io/open_data_portal_pal/"
-homepage = "https://github.com/asenetcky/open_data_portal_pal"
+bugs = "https://github.com/asenetcky/portal-pal/issues"
+changelog = "https://github.com/asenetcky/portal-pal/releases"
+documentation = "https://asenetcky.github.io/portal-pal/"
+homepage = "https://github.com/asenetcky/portal-pal"
 
 [project.scripts]
-open_data_portal_pal = "open_data_portal_pal.cli:app"
+portal-pal = "open_data_portal_pal.cli:app"
 
 [tool.ty]
 # All rules are enabled as "error" by default; no need to specify unless overriding.
