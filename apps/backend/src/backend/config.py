@@ -29,6 +29,9 @@ class Settings(BaseSettings):
     max_cache_entries: int = 3
     max_retries: int = 3
 
+    # Auth
+    portal_pal_api_key: SecretStr
+
     model_config = {"env_file": ".env", "extra": "ignore"}
 
     @property

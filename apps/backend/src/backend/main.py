@@ -1,8 +1,9 @@
 from contextlib import asynccontextmanager
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request, Security
 from fastapi.responses import JSONResponse
+from fastapi.security import APIKeyHeader
 from langsmith import traceable
 from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
@@ -61,6 +62,16 @@ async def lifespan(app: FastAPI):
     logger.info("Shutting down...", extra={"extra_data": metrics.summary})
 
 
+# auth
+
+_api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
+
+
+async def verify_api_key(api_key: str = Security(_api_key_header)) -> None:
+    if not api_key or api_key != get_settings().portal_pal_api_key.get_secret_value():
+        raise HTTPException(status_code=401, detail="Invalid or missing API key.")
+
+
 # rate limiter setup
 
 limiter = Limiter(key_func=get_remote_address)
@@ -91,7 +102,7 @@ async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
 # chat endpoints
 
 
-@app.post("/chat", response_model=ChatResponse)
+@app.post("/chat", response_model=ChatResponse, dependencies=[Depends(verify_api_key)])
 @limiter.limit(get_settings().rate_limit)
 @traceable(name="chat_endpoint")
 async def chat(request: Request, body: ChatRequest):
@@ -219,14 +230,14 @@ async def health():
     )
 
 
-@app.get("/metrics", response_model=MetricsResponse)
+@app.get("/metrics", response_model=MetricsResponse, dependencies=[Depends(verify_api_key)])
 async def get_metrics():
     """Metrics for monitoring dashbaords."""
     summary = metrics.summary
     return MetricsResponse(**summary)
 
 
-@app.get("/cache/stats")
+@app.get("/cache/stats", dependencies=[Depends(verify_api_key)])
 async def cache_stats():
     """Cache performance stats."""
     return cache.stats
