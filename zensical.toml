@@ -1,8 +1,8 @@
 [project]
-site_name = "Open Data Portal Pal"
-site_url = "https://asenetcky.github.io/open_data_portal_pal/"
-repo_url = "https://github.com/asenetcky/open_data_portal_pal"
-repo_name = "asenetcky/open_data_portal_pal"
+site_name = "Portal Pal"
+site_url = "https://asenetcky.github.io/portal-pal/"
+repo_url = "https://github.com/asenetcky/portal-pal"
+repo_name = "asenetcky/portal-pal"
 
 nav = [
   { "Home" = "index.md" },
@@ -24,4 +24,4 @@ toggle.icon = "material/brightness-4"
 toggle.name = "Switch to light mode"
 
 [project.plugins.mkdocstrings.handlers.python]
-paths = ["src"]
+paths = ["backend/src"]

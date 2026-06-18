@@ -1,4 +1,4 @@
-# Open Data Portal Pal
+# Portal Pal
 
 Deployable LLM + RAG System for Interacting with Open Data Portals.
 
@@ -9,7 +9,7 @@ Deployable LLM + RAG System for Interacting with Open Data Portals.
 
 ## usage
 ```
-uv run uvicorn open_data_portal_pal.app.main:app --reload --port 8000
+uv run uvicorn backend.main:app --reload --port 8000
 ```
 
 
@@ -58,6 +58,6 @@ just qa
 
 ## Author
 
-Open Data Portal Pal was created in 2026 by Alexander J. Senetcky.
+Portal Pal was created in 2026 by Alexander J. Senetcky.
 
 Built with [Cookiecutter](https://github.com/cookiecutter/cookiecutter) and the [audreyfeldroy/cookiecutter-pypackage](https://github.com/audreyfeldroy/cookiecutter-pypackage) project template.
