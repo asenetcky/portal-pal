@@ -3,7 +3,6 @@ from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
-from langsmith import traceable
 from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
@@ -93,7 +92,6 @@ async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
 
 @app.post("/chat", response_model=ChatResponse)
 @limiter.limit(get_settings().rate_limit)
-@traceable(name="chat_endpoint")
 async def chat(request: Request, body: ChatRequest):
     """
     Main chat endpoint.
