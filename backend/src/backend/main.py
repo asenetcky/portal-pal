@@ -8,12 +8,12 @@ from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 
-from open_data_portal_pal.backend.agent import ProductionAgent
-from open_data_portal_pal.backend.cache import ResponseCache
-from open_data_portal_pal.backend.config import get_settings
-from open_data_portal_pal.backend.models import ChatRequest, ChatResponse, HealthResponse, MetricsResponse
-from open_data_portal_pal.backend.monitoring import MetricsCollector, RequestTimer, get_logger
-from open_data_portal_pal.backend.security import SecurityPipeline
+from backend.agent import ProductionAgent
+from backend.cache import ResponseCache
+from backend.config import get_settings
+from backend.models import ChatRequest, ChatResponse, HealthResponse, MetricsResponse
+from backend.monitoring import MetricsCollector, RequestTimer, get_logger
+from backend.security import SecurityPipeline
 
 load_dotenv()
 
