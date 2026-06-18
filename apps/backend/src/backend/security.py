@@ -5,8 +5,6 @@ Protecting LLM application in production
 
 import re
 
-from langsmith import traceable
-
 
 class InputSanitizer:
     """
@@ -138,7 +136,6 @@ class SecurityPipeline:
         self.pii_detector = PIIDetector()
         self.output_validator = OutputValidator()
 
-    @traceable(name="security_check_input")
     def check_input(self, text: str) -> tuple[bool, str, list[str | None]]:
         """
         Process input through security checks.
