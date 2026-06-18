@@ -6,10 +6,9 @@ These run WITHOUT any LLM calls — agent and security pipeline are mocked.
 from unittest.mock import MagicMock, patch
 
 import pytest
+from backend.config import get_settings
 from fastapi.testclient import TestClient
 from pydantic import SecretStr
-
-from backend.config import get_settings
 
 VALID_KEY = "test-secret-key-abc123"
 

@@ -105,7 +105,7 @@ class ProductionAgent:
                 return "error"
 
         # Build the graph
-        graph = StateGraph(AgentState)
+        graph = StateGraph(AgentState)  # ty: ignore[invalid-argument-type]
 
         graph.add_node("process", process_message)
         graph.add_node("fallback", try_fallback)

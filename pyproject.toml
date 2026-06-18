@@ -61,7 +61,7 @@ select = [
 [tool.coverage.run]
 branch = true
 parallel = true
-source = ["src/", "tests/"]
+source = ["apps/backend/src/backend"]
 
 [tool.coverage.report]
 show_missing = true
