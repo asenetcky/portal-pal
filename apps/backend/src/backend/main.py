@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Request, Security
 from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
-from langsmith import traceable
 from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
@@ -104,7 +103,6 @@ async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
 
 @app.post("/chat", response_model=ChatResponse, dependencies=[Depends(verify_api_key)])
 @limiter.limit(get_settings().rate_limit)
-@traceable(name="chat_endpoint")
 async def chat(request: Request, body: ChatRequest):
     """
     Main chat endpoint.
