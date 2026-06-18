@@ -11,13 +11,14 @@ classifiers = [
 ]
 requires-python = ">=3.13"
 license = { text = "MIT" }
-dependencies = []
+dependencies = ["backend", "frontend"]
+
+[tool.uv.sources]
+backend = { workspace = true }
+frontend = { workspace = true }
 
 [tool.uv.workspace]
-members = [
-    "backend",
-    "frontend",
-]
+members = ["apps/*"]
 
 [dependency-groups]
 dev = [
