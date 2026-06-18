@@ -65,11 +65,11 @@ class PIIDetector:
     }
 
     MASK_MAP = {
-        "email": "EMAIL REDACTED",
-        "phone": "PHONE REDACTED",
-        "ssn": "SSN REDACTED",
-        "credit_card": "CREDIT CARD REDACTED",
-        "ip_address": "IP ADDRESS REDACTED",
+        "email": "[EMAIL REDACTED]",
+        "phone": "[PHONE REDACTED]",
+        "ssn": "[SSN REDACTED]",
+        "credit_card": "[CREDIT CARD REDACTED]",
+        "ip_address": "[IP ADDRESS REDACTED]",
     }
 
     def detect(self, text: str) -> dict[str, list[str]]:

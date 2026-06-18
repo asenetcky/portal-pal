@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-If you find a security vulnerability in Open Data Portal Pal, please report it through [GitHub's private vulnerability reporting](https://github.com/asenetcky/open_data_portal_pal/security/advisories/new). This keeps the details private while we work on a fix.
+If you find a security vulnerability in Portal Pal, please report it through [GitHub's private vulnerability reporting](https://github.com/asenetcky/portal-pal/security/advisories/new). This keeps the details private while we work on a fix.
 
 Please include:
 

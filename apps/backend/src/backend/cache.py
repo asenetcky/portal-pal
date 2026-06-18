@@ -1,5 +1,5 @@
 """
-Caching alyer around user inputs.
+Caching layer around user inputs.
 """
 
 import hashlib

@@ -22,7 +22,7 @@ class JSONFormatter(logging.Formatter):
         return json.dumps(log_obj)
 
 
-def get_logger(name: str = "open-data-portal-pal") -> logging.Logger:
+def get_logger(name: str = "portal-pal") -> logging.Logger:
     """Create a structed JSON logger."""
     logger = logging.getLogger(name)
 
