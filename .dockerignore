@@ -1,0 +1,74 @@
+# Git
+.git/
+.github/
+
+# Python
+__pycache__/
+*.py[codz]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+.eggs/
+build/
+dist/
+eggs/
+MANIFEST
+
+# Environments
+.env
+.envrc
+.venv/
+
+# uv
+.cache/
+
+# Test / coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+.hypothesis/
+.pytest_cache/
+apps/backend/tests/
+
+# Type checkers
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# Linters
+.ruff_cache/
+
+# Docs / site
+docs/
+site/
+
+# Dev config
+.editorconfig
+.python-version
+justfile
+zensical.toml
+render.yml
+docker-compose.yml
+
+# IDE
+.idea/
+.vscode/
+
+# Misc
+scripts/
+src/
+main.py
+*.bak
+*.md
+LICENSE
+CHANGELOG/
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+SECURITY.md
+README.md
