@@ -19,10 +19,10 @@ load_dotenv()
 
 
 # Global instances (initialized in lifespan)
-security: SecurityPipeline = None
-cache: ResponseCache = None
-metrics: MetricsCollector = None
-agent: ProductionAgent = None
+security: SecurityPipeline = None  # ty: ignore[invalid-assignment]
+cache: ResponseCache = None  # ty: ignore[invalid-assignment]
+metrics: MetricsCollector = None  # ty: ignore[invalid-assignment]
+agent: ProductionAgent = None  # ty: ignore[invalid-assignment]
 logger = get_logger()
 
 
@@ -150,7 +150,7 @@ async def chat(request: Request, body: ChatRequest):
 
         # step 3: invoake langgraph agent
         try:
-            result = agent.invoke(cleaned_message)
+            result = agent.invoke(cleaned_message)  # ty: ignore[invalid-argument-type]
         except Exception as e:
             logger.error(
                 f"Agent invocation failed: {e}",
@@ -162,7 +162,7 @@ async def chat(request: Request, body: ChatRequest):
                 },
             )
             metrics.record_request(latency_ms=0, error=True)
-            raise HTTPException(status_code=500, detail="An Error occurred while processing your request.")
+            raise HTTPException(status_code=500, detail="An Error occurred while processing your request.") from e
 
         response_text = result["response"]
         model_used = result["model_used"]

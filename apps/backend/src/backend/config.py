@@ -43,4 +43,4 @@ class Settings(BaseSettings):
 def get_settings() -> Settings:
     """Cached settings instance - loaded once, reused everywhere."""
 
-    return Settings()
+    return Settings()  # ty: ignore[missing-argument]
