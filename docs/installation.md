@@ -2,7 +2,7 @@
 
 ## From source
 
-The source files for Open Data Portal Pal can be downloaded from the [Github repo](https://github.com/asenetcky/portal-pal).
+The source files for Portal Pal can be downloaded from the [Github repo](https://github.com/asenetcky/portal-pal).
 
 You can either clone the public repository:
 

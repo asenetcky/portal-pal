@@ -16,7 +16,7 @@ body:
       label: Steps to reproduce
       description: Minimal steps to trigger the bug.
       placeholder: |
-        1. Install with `uv pip install open-data-portal-pal`
+        1. Install with `uv pip install portal-pal`
         2. Run `...`
         3. See error
     validations:
@@ -30,7 +30,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: "Open Data Portal Pal version"
+      label: "Portal Pal version"
       placeholder: "0.1.0"
     validations:
       required: true
