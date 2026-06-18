@@ -38,8 +38,6 @@ changelog = "https://github.com/asenetcky/portal-pal/releases"
 documentation = "https://asenetcky.github.io/portal-pal/"
 homepage = "https://github.com/asenetcky/portal-pal"
 
-[project.scripts]
-portal-pal = "open_data_portal_pal.cli:app"
 
 [tool.ty]
 # All rules are enabled as "error" by default; no need to specify unless overriding.

@@ -67,7 +67,7 @@ limiter = Limiter(key_func=get_remote_address)
 
 # fastapi app
 app = FastAPI(
-    title="Production Open Data Portal Pal",
+    title="Portal Pal",
     description="A production-ready chat api with security, caching, and observability.",
     version="0.1.0",
     lifespan=lifespan,

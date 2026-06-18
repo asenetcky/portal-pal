@@ -26,7 +26,7 @@ Look through the GitHub issues for features. Anything tagged with "enhancement" 
 
 ### Write Documentation
 
-Open Data Portal Pal could always use more documentation, whether as part of the official docs, in docstrings, or even on the web in blog posts, articles, and such.
+Portal Pal could always use more documentation, whether as part of the official docs, in docstrings, or even on the web in blog posts, articles, and such.
 
 To preview the docs locally:
 
