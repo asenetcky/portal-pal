@@ -26,6 +26,8 @@ services:
         value: gpt-5-nano-2025-08-07
       - key: OPENAI_API_KEY
         sync: false # Must be set manually — NEVER commit secrets
+      - key: PORTAL_PAL_API_KEY
+        sync: false # Must be set manually — share this with trusted users only
       - key: LANGSMITH_API_KEY
         sync: false # Must be set manually
       - key: LANGSMITH_TRACING
