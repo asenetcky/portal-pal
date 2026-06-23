@@ -11,7 +11,11 @@ classifiers = [
 ]
 requires-python = ">=3.13"
 license = { text = "MIT" }
-dependencies = ["backend", "frontend"]
+dependencies = [
+    "backend",
+    "frontend",
+    "sodapy>=2.2.0",
+]
 
 [tool.uv.sources]
 backend = { workspace = true }
