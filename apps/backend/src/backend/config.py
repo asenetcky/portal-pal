@@ -36,8 +36,6 @@ class Settings(BaseSettings):
     supabase_url: SecretStr
     supabase_key: SecretStr
 
-
-
     model_config = {"env_file": ".env", "extra": "ignore"}
 
     @property
