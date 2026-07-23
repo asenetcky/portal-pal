@@ -22,6 +22,8 @@ def _mock_settings():
     s.langsmith_tracing = False
     s.primary_model = "gpt-test"
     s.is_production = False
+    s.supabase_url = "https://test-supabase.supabase.co"
+    s.supabase_key = "test-supabase-key"
     return s
 
 
