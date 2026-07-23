@@ -66,6 +66,8 @@ jobs:
       OPENAI_API_KEY: sk-test-ci-key
       PORTAL_PAL_API_KEY: test-ci-api-key
       LANGSMITH_API_KEY: test-ci-langsmith-key
+      SUPABASE_URL: test-ci-supabase-url
+      SUPABASE_KEY: test-ci-supabase-key
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
