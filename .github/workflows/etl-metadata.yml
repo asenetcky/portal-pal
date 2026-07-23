@@ -1,25 +1,15 @@
-name: ETL Pipeline
+name: metadata-extract
 
 on:
+  schedule:
+    - cron: '0 0 * * *' # every night at midnight UTC
+
   workflow_dispatch:
-    inputs:
-      run_all:
-        description: "Run all ETL CI jobs"
-        required: false
-        default: true
-      run_build_and_publish:
-        description: "Build and Publish Portal ETL container"
-        required: false
-        default: false
-  release:
-    type: [created]
   
 jobs:
-  build_and_publish:
+  run-cron-extract:
     runs-on: ubuntu-latest
 
-    # env:
-    #   KEY:  
 
     steps:
       - name: checkout-code
@@ -31,5 +21,6 @@ jobs:
         uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
       
       - name: collect-metadata
+        env: {{ secrets.PORTAL_PAL_API_KEY }}
         run: uv run ./apps/etl/src/etl/main.py
       
