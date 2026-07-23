@@ -1,11 +1,42 @@
 import datetime as dt
+from functools import lru_cache
 from typing import Any
 from uuid import uuid4
 
-from backend.config import get_settings
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, SecretStr
+from pydantic_settings import BaseSettings
 from sodapy import Socrata
 from supabase import Client, create_client
+
+
+class Settings(BaseSettings):
+    # Application
+    app_env: str = "development"
+    log_level: str = "INFO"
+    rate_limit: str = "20/minute"
+    cache_ttl_seconds: int = 300
+    max_cache_entries: int = 3
+    max_retries: int = 3
+
+    # portal
+    portal_pal_api_key: SecretStr
+
+    # Supabase
+    supabase_url: SecretStr
+    supabase_key: SecretStr
+
+    model_config = {"env_file": ".env", "extra": "ignore"}
+
+    @property
+    def is_production(self) -> bool:
+        return self.app_env == "production"
+
+
+@lru_cache
+def get_settings() -> Settings:
+    """Cached settings instance - loaded once, reused everywhere."""
+
+    return Settings()  # ty: ignore[missing-argument]
 
 
 class PortalMetaData(BaseModel):
