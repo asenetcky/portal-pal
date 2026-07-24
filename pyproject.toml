@@ -1,6 +1,6 @@
 [project]
 name = "portal-pal"
-version = "0.1.0"
+version = "0.2.0"
 description = "Deployable LLM + RAG System for Interacting with Open Data Portals."
 readme = "README.md"
 authors = [{ name = "Alexander J. Senetcky", email = "me@asenetcky.dev" }]
