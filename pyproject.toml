@@ -13,6 +13,7 @@ requires-python = ">=3.13"
 license = { text = "MIT" }
 dependencies = [
     "backend",
+    "data-prep",
     "frontend",
     "sodapy>=2.2.0",
     "supabase>=2.31.0",
@@ -20,6 +21,7 @@ dependencies = [
 
 [tool.uv.sources]
 backend = { workspace = true }
+data-prep = { workspace = true }
 frontend = { workspace = true }
 
 [tool.uv.workspace]
