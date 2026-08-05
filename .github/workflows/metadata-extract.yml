@@ -31,5 +31,5 @@ jobs:
           PORTAL_PAL_API_KEY: ${{ secrets.PORTAL_PAL_API_KEY }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-        run: uv run ./apps/etl/src/etl/main.py
+        run: uv run ./apps/metadata-extract/src/metadata-extract/main.py
       
