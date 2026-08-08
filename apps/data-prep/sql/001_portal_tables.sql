@@ -138,15 +138,18 @@ create table if not exists portal_domain_metadata (
 
 create index if not exists portal_domain_metadata_key_value_idx on portal_domain_metadata (key, value);
 
+-- `label` alone doesn't identify a link: additional_access_points can carry
+-- more than one entry with the same format label (e.g. two application/zip
+-- links), so `url` -- the actual distinguishing part -- is in the key too.
 create table if not exists portal_access_points (
     snapshot_id text not null references portal_snapshots (snapshot_id) on delete cascade,
     asset_id    text not null,
     source      text not null,
     label       text not null,
-    url         text,
+    url         text not null,
     title       text,
     description text,
-    primary key (snapshot_id, asset_id, source, label)
+    primary key (snapshot_id, asset_id, source, label, url)
 );
 
 create table if not exists portal_asset_parents (
@@ -217,3 +220,26 @@ create index if not exists portal_chunks_pending_idx on portal_chunks (embedded_
 -- Swap for an hnsw index once the table is populated:
 -- create index portal_chunks_embedding_idx on portal_chunks
 --     using hnsw (embedding vector_cosine_ops);
+
+-- ------------------------------------------------------------------- grants
+
+-- New tables aren't covered by any pre-existing default-privilege grant, so
+-- the data-prep job's service_role key can't read or write them until this
+-- runs (PostgREST returns 42501 permission denied otherwise).
+grant select, insert, update, delete on
+    portal_snapshots,
+    portal_assets,
+    portal_people,
+    portal_asset_people,
+    portal_page_views,
+    portal_asset_columns,
+    portal_asset_tags,
+    portal_domain_metadata,
+    portal_access_points,
+    portal_asset_parents,
+    portal_org_signals,
+    portal_asset_changes,
+    portal_chunks
+to service_role;
+
+grant usage, select on all sequences in schema public to service_role;
