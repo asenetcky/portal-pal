@@ -29,6 +29,11 @@ SNAPSHOTS_TABLE = "portal_snapshots"
 PAGE_SIZE = 1000
 WRITE_BATCH = 500
 
+# `in_(...)` filters ride in the URL query string, not the request body, so a
+# batch of 64-char content hashes must stay well under the gateway's URL length
+# limit (~8 KB). 50 hashes is ~3-4 KB of URL -- comfortably below it.
+FILTER_BATCH = 50
+
 # Flattened frame name -> destination table.
 TABLE_MAP: dict[str, str] = {
     "snapshot": SNAPSHOTS_TABLE,
