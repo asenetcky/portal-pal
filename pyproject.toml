@@ -13,6 +13,7 @@ requires-python = ">=3.13"
 license = { text = "MIT" }
 dependencies = [
     "backend",
+    "data-prep",
     "frontend",
     "sodapy>=2.2.0",
     "supabase>=2.31.0",
@@ -20,6 +21,7 @@ dependencies = [
 
 [tool.uv.sources]
 backend = { workspace = true }
+data-prep = { workspace = true }
 frontend = { workspace = true }
 
 [tool.uv.workspace]
@@ -49,6 +51,11 @@ homepage = "https://github.com/asenetcky/portal-pal"
 # All rules are enabled as "error" by default; no need to specify unless overriding.
 # Example override: relax a rule for the entire project (uncomment if needed).
 # rules.TY015 = "warn"  # For invalid-argument-type, warn instead of error.
+
+[tool.ty.src]
+# Marimo notebooks depend on their app's own `dev` group (e.g. marimo itself),
+# which isn't installed by the workspace-root `ty` environment.
+exclude = ["**/notebooks/**"]
 
 [tool.ruff]
 line-length = 120

@@ -1,15 +1,14 @@
-name: metadata-extract
+name: data-prep
 
 on:
   schedule:
-    - cron: '0 0 * * *' # every night at midnight UTC
+    - cron: '30 0 * * *' # nightly, half an hour after metadata-extract
 
   workflow_dispatch:
-  
-jobs:
-  run-cron-extract:
-    runs-on: ubuntu-latest
 
+jobs:
+  run-cron-flatten:
+    runs-on: ubuntu-latest
 
     steps:
       - name: checkout-code
@@ -25,11 +24,9 @@ jobs:
 
       - name: install-project
         run: uv sync --locked
-      
-      - name: collect-metadata
-        env: 
-          PORTAL_PAL_API_KEY: ${{ secrets.PORTAL_PAL_API_KEY }}
+
+      - name: flatten-snapshot
+        env:
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-        run: uv run ./apps/metadata-extract/src/metadata-extract/main.py
-      
+        run: uv run python -m data_prep.main
