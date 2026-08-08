@@ -29,6 +29,12 @@ SNAPSHOTS_TABLE = "portal_snapshots"
 PAGE_SIZE = 1000
 WRITE_BATCH = 500
 
+# Batches for filters like `.in_("content_hash", batch)` land in the request
+# URL, not the body, so this has to stay far below WRITE_BATCH -- a few
+# hundred sha256 hashes there is enough to overrun the gateway's URL length
+# limit and come back as a non-JSON 400.
+FILTER_BATCH = 100
+
 # Flattened frame name -> destination table.
 TABLE_MAP: dict[str, str] = {
     "snapshot": SNAPSHOTS_TABLE,

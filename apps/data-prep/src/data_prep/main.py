@@ -137,7 +137,7 @@ def _write_chunks(
     return written
 
 
-def _hash_batches(hashes: list[str], size: int = io.WRITE_BATCH) -> list[list[str]]:
+def _hash_batches(hashes: list[str], size: int = io.FILTER_BATCH) -> list[list[str]]:
     return [hashes[start : start + size] for start in range(0, len(hashes), size)]
 
 
