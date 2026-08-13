@@ -15,4 +15,12 @@ def get_client() -> Client:
     return create_client(settings.supabase_url.get_secret_value(), settings.supabase_key.get_secret_value())
 
 def fetch_null_embeds(client: Client, domain: str):
-    pass
+    query = client.table(CHUNKS_TABLE).select('*').is_("embedding", "null")
+
+    response = query.limit(1).execute()
+
+    return response
+
+client = get_client()
+
+fetch_null_embeds(client, "derp")
