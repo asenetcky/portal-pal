@@ -18,13 +18,13 @@ import logging
 from typing import Any
 
 import polars as pl
-from supabase import Client
 
 from data_prep import supabase_io as io
 from data_prep.changes import change_summary, diff_snapshots
 from data_prep.chunks import build_chunks, changed_chunks
 from data_prep.config import get_settings
 from data_prep.flatten import PortalTables, flatten_record
+from supabase import Client
 
 logger = logging.getLogger("data_prep")
 

@@ -16,9 +16,9 @@ from typing import Any, cast
 
 import polars as pl
 import polars.selectors as cs
-from supabase import Client, create_client
 
 from data_prep.config import get_settings
+from supabase import Client, create_client
 
 RAW_TABLE = "raw_metadata"
 CHUNKS_TABLE = "portal_chunks"
