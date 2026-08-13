@@ -6,6 +6,7 @@ from uuid import uuid4
 from pydantic import BaseModel, Field, SecretStr
 from pydantic_settings import BaseSettings
 from sodapy import Socrata
+
 from supabase import Client, create_client
 
 
