@@ -11,6 +11,10 @@ raw_metadata (one JSON blob per scrape)
   -> chunk + hash portal_chunks, new hashes left unembedded
 ```
 
+See [`docs/data-prep-pipeline.md`](../../docs/data-prep-pipeline.md) for a
+step-by-step walkthrough of flattening, diffing, and the chunking/re-embedding
+strategy.
+
 ## Setup
 
 Apply the schema once:
